@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class BinaryTree {
   private TreeNode root = null;
 
@@ -33,6 +35,7 @@ public class BinaryTree {
     }
   }
 
+/////////////////////// Begin 使用递归进行遍历 //////////////////////
   // 前序遍历 ABDECF
   public void preOrder(TreeNode node) {
     if(node == null) {
@@ -65,7 +68,75 @@ public class BinaryTree {
       System.out.println("postOrder data:" + node.getData());
     }
   }
+/////////////////////// End 使用递归进行遍历 /////////////////////
 
+////////////////////// Begin 使用栈进行遍历 /////////////////////
+ // 前序遍历
+  public void stackPreOrder(TreeNode node) {
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    if(node != null) {
+      stack.push(node);
+    }
+    while(!stack.isEmpty()) {
+      node = stack.pop();
+      System.out.println("stackPreOrder data:" + node.getData());
+      if(node.rightNode != null)
+        stack.push(node.rightNode);
+      if(node.leftNode != null)
+        stack.push(node.leftNode);
+    }
+  }
+
+ // 中序遍历
+  public void stackInOrder(TreeNode node) {
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    if(node != null) {
+      stack.push(node);
+    }
+    while(!stack.isEmpty()) {
+      TreeNode n = stack.pop();
+      TreeNode leftChild = n.leftNode;
+      TreeNode rightChild = n.rightNode;
+
+      if(leftChild == null && rightChild == null) {
+        System.out.println("stackInOrder data:" + n.getData());
+      } else {
+        if(rightChild != null) {
+          stack.push(rightChild);
+        }
+        stack.push(new TreeNode(n.getIndex(), n.getData()));
+        if(leftChild != null) {
+          stack.push(leftChild);
+        }
+      }
+    }
+  }
+
+ // 后序遍历
+  public void stackPostOrder(TreeNode node) {
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    if(node != null) {
+      stack.push(node);
+    }
+    while(!stack.isEmpty()) {
+      TreeNode n = stack.pop();
+      TreeNode leftChild = n.leftNode;
+      TreeNode rightChild = n.rightNode;
+
+      if(leftChild == null && rightChild == null) {
+        System.out.println("stackPostOrder data:" + n.getData());
+      } else {
+        stack.push(new TreeNode(n.getIndex(), n.getData()));
+        if(rightChild != null) {
+          stack.push(rightChild);
+        }
+        if(leftChild != null) {
+          stack.push(leftChild);
+        }
+      }
+    }
+  }
+////////////////////// End 使用栈进行遍历 ///////////////////////
   /**
    * 构建二叉树
    *        A
@@ -125,5 +196,8 @@ public class BinaryTree {
     binaryTree.preOrder(binaryTree.root);
     binaryTree.inOrder(binaryTree.root);
     binaryTree.postOrder(binaryTree.root);
+    binaryTree.stackPreOrder(binaryTree.root);
+    binaryTree.stackInOrder(binaryTree.root);
+    binaryTree.stackPostOrder(binaryTree.root);
   }
 }
